@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts, epsfig}
+\usepackage[authoryear]{natbib}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lfoot{\texttt{comsm0075.github.io}}
+\lhead{Information Processing and the Brain 2021/2022}
+\rhead{\thepage}
+\cfoot{}
+\begin{document}
+
+\section*{Coursework: Analysing deep neural networks as brain models}
+
+
+For this coursework you are asked to implement and explore the
+behaviour of backprop using supervised learning and a deep neural
+network as a potential model for information processing in the
+brain. For implementation we suggest that you use lab1 as a starting
+point and Python or Julia in particular.
+
+\subsection*{1. Implement the backpropagation algorithm in the supervised context}
+
+The backpropagation algorithm is often used in machine learning to
+solve the credit assignment problem. Here you are going to contrast
+its different elements (e.g. error backpropagation, or symmetric
+weights) to how the brain is organised. You should use a simple
+feedforward neural network with one (or two) hidden layers and
+sigmoidal units to teach the network to classify the widely used
+handwritten digit recognition dataset
+(MNIST\footnote{http://yann.lecun.com/exdb/mnist/}). Do not use
+autograd tools as in pytorch for this simple task. You should use a
+mean squared cost (as discussed in the lectures) and a one-hot
+output\footnote{https://en.wikipedia.org/wiki/One-hot} encoding to
+represent the MNIST classes.  Include brief snippets of your code in
+the report. Note: Although here you are asked to implement the
+backprop algorithm in a supervised setting, backprop is also used in
+unsupervised (e.g. autoencoders) and reinforcement learning (e.g. deep
+RL).
+
+You should use the lectures and you may also use these (or related)
+papers as references when contrasting backprop with the brain:
+
+\begin{itemize}
+\item Blake and Lillicrap, Dendritic solutions to the credit
+  assignment problem, Current Opinion in Neurobiology 2019.
+\item Sacramento et al., NeuralIPS 2018,
+  (\texttt{arXiv.org:1810.11393})
+\end{itemize}
+ 
+\subsection*{2. Analyse the deep network using information theory}
+
+Recently information theory has been used to study the dynamics of
+learning in deep learning networks; here you will examine the mutual
+information between the image label and the network activity: you can
+imagine a communication channel
+$$
+ \mbox{label} \rightarrow \mbox{image} \rightarrow \mbox{hidden layer} \rightarrow \mbox{output}
+$$
+ in which the image label is encoded in the image itself and that in
+turn is encoded in the activity of the hidden layer and then in the
+output layer. The aim is to quantify information flow in this channel,
+at least in a discrete approximation in which neurons are either on or
+off. Thus a random variable representing a layer will take
+binary-sequence values with ones and zeros corresponding to neurons
+being “on” or “off” based on their activation. The probability for
+each binary sequence can be estimated by counting the number of images
+that produce that sequence; note that for the hidden layer many will
+have zero estimated probability.
+
+\begin{itemize}
+\item Opening the black box of deep neural networks via information. Ravid Shwartz-Ziv and Naftali Tishby. \texttt{arXiv:1703.00810}
+\item Adaptive estimators show information compression in deep neural networks. Ivan Chelombiev, Conor Houghton and Cian O'Donnell.\\ \texttt{arXiv:1902.09037}
+\end{itemize}
+
+ \subsection*{Questions }
+
+ \begin{enumerate}
+
+ \item Biological relevance of backprop 
+
+\begin{enumerate}
+   
+    \item \textsl{How does the algorithm work?} Explain the algorithm (with
+      equations) and plot the different components over learning to
+      help you explain its behaviour (e.g. what are the weight changes
+      given by backprop and the different terms that make up the
+      gradient). You should also plot the performance (i.e. cost) of
+      the algorithm over learning iterations (i.e. the learning
+      curve). You should include a snippet of the key component of
+      your code in your report. [3/20 marks, max 500 words]
+
+ \item \textsl{How does the algorithm relate to the brain?} Discuss how backprop
+ relates to the brain. Can neural networks optimised with backprop
+ explain neuroscience data? Here you are going to explore the
+ biological plausibility of three of the key issues with backprop (you
+ should discuss their implications and how important they are using
+ simulations and the respective plots to support your arguments) [4/20
+   marks, max 500 words]:
+\begin{enumerate}
+    \item Weight transport problem 
+    \item The need for derivative of the activation function
+    \item Two phase learning 
+\end{enumerate}
+ 
+\item Discuss what are the key advantages of using supervised learning over the other two learning paradigms (unsupervised and reinforcement learning) both in terms of performance/data needs and biological plausibility. For this  [1.5/20 marks, max 250 words] 
+
+\item What about disadvantages in terms of performance/data needs and biological plausibility? And how could this be improved upon? [1.5/20 marks, max 250 words] 
+\end{enumerate}
+ 
+\item Information theory analysis 
+
+\begin{enumerate}
+    \item If $X$ is a random variable representing the input, $H(X)$ will be
+    $\log(10)$ since there are ten labels. Let $Y$ represent the
+    discretized hidden layer activity, this means the components of $Y$
+    represent the activity of individual nodes of the hidden layer
+    with an integer. One approach might be to find the average
+    activity and use that as a cut-off with values exceeding it mapped
+    to one and other values to zero.  Now, what is $H(Y|X)$ and how does
+    this change with learning? What about $I(X,Y)$? How are these
+    dynamics changed if the number of hidden layer neurons is changed?
+    If $Z$ represents the activity of the output layer, how do $H(Z|X)$
+    and $I(X,Z)$ change? [7/20 marks, maximum 500 words and four graphs]
+
+    \item What happens if you consider some property of the image, for
+      example, if the image is divided in four and $W$ is the random
+      variable giving which quadrant has the largest amount of
+      white. How do $I(W,Y)$ and $I(W,Z)$ change with learning? [3/20
+        marks, maximum 250 words and two graphs]
+
+\end{enumerate}
+
+\end{enumerate}
+ 
+
+ 
+
+ Submit your report on Blackboard (IPB > Assessment, submission and
+ feedback) remembering that you need to submit to the `coursework'
+ unit (COMSM0100) not the `teaching' unit (COMSM0075). No need to
+ submit your full code (include snippets in the report), only the
+ report in pdf or similar. Please add the necessary
+ references/citations at the end.
+
+ 
+\begin{itemize}
+\item[Note 1]: Where possible cite papers and/or use simulations/plots to support your claims. 
+\item[Note 2]: Collaborative work is encouraged (e.g. for coding and understanding of the algorithm), but every submission should be individual / unique. 
+\end{itemize}
+ 
+
+\subsubsection*{Support provided}
+
+ We cannot provide direct support on the coursework, but we (TAs and
+ Lecturers) can help with questions you might have about the lectures
+ and labs/workshops. We will be available during the usual
+ lab/workshop times on Monday and Tuesday as in your timetable.
+
+ \subsubsection*{Deadline}
+
+The deadline for submission of all optional unit assignments is 13:00
+(1pm) on Friday 10th of December (end of Week 11). Students should
+submit all required materials to the “Assessment, submission and
+feedback” section of Blackboard - it is essential that this is done on
+the Blackboard page related to the “With Coursework” variant of the
+unit.
+
+ \subsubsection*{Time commitment and marking}
+
+The expectation is that students will spend 3 full, as in 40 hour,
+working weeks on their two assignments. The effort spent on the
+assignment for each unit should be approximately equal, being roughly
+equivalent to 1.5 working weeks each.
+
+We expect that a submission which shows basic understanding of the
+concepts will get a mark of 50 to 59\%, one that implements the
+suggested algorithms in a minimal way, for example, in 2(b)
+calculating the mutual information for the four quadrants but not
+expermenting with white versus black, will get a mark of between 60
+and 69\%; adding some extra work, so in the example of 2(b) looking at
+other properties of the input, will get a mark above 70\%. 
+
+ \subsubsection*{Academic Offences}
+
+Academic offences (including submission of work that is not your own,
+falsification of data/evidence or the use of materials without
+appropriate referencing) are all taken very seriously by the
+University. Suspected offences will be dealt with in accordance with
+the University’s policies and procedures. If an academic offence is
+suspected in your work, you will be asked to attend an interview with
+senior members of the school, where you will be given the opportunity
+to defend your work. The plagiarism panel is able to apply a range of
+penalties, depending on the severity of the offence. These include:
+requirement to resubmit work, capping of grades and the award of no
+mark for an element of assessment.
+
+ \subsubsection*{Extenuating circumstances}
+
+If the completion of your assignment has been significantly disrupted
+by serious health conditions, personal problems, periods of
+quarantine, or other similar issues, you may be able to apply for
+consideration of extenuating circumstances (in accordance with the
+normal university policy and processes). Students should apply for
+consideration of extenuating circumstances as soon as possible when
+the problem occurs, using the online form.
+
+\end{document}
